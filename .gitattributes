@@ -1,0 +1,27 @@
+# File template taken from:
+# https://github.com/alexkaratarakis/gitattributes/blob/4feef52ca2cfe98763384901c0c4237e98ff1fb2/Python.gitattributes
+# Basic .gitattributes for a python repo.
+# Source files
+# ============
+*.pxd    text diff=python
+*.py     text diff=python
+*.py3    text diff=python
+*.pyw    text diff=python
+*.pyx    text diff=python
+*.pyz    text diff=python
+# Binary files
+# ============
+*.db     binary
+*.p      binary
+*.pkl    binary
+*.pickle binary
+*.pyc    binary
+*.pyd    binary
+*.pyo    binary
+# Jupyter notebook
+*.ipynb  text
+# Note: .db, .p, and .pkl files are associated
+# with the python modules ``pickle``, ``dbm.*``,
+# ``shelve``, ``marshal``, ``anydbm``, & ``bsddb``
+# (among others).
+*.edf filter=lfs diff=lfs merge=lfs -text
