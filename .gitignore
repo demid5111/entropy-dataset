@@ -133,3 +133,7 @@ dmypy.json
 
 # IDEA
 .idea/
+
+# Excel files
+~$*
+output.xlsx
