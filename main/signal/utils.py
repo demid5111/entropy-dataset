@@ -1,22 +1,16 @@
-import pyedflib
-
 import matplotlib.pyplot as plt
 
 import numpy as np
 
 
-def read_ir_signal_from(edf_file_path):
-    f = pyedflib.EdfReader(edf_file_path)
-    signal_labels = f.getSignalLabels()
-    ir_index = signal_labels.index('IR')
-
-    ir_buffer = f.readSignal(ir_index)
-    ir_frequency = f.getSampleFrequency(ir_index)
-    date_record = f.getStartdatetime()
-    return ir_buffer, ir_frequency, date_record
-
-
 def visualize_signal(signal, left=None, right=None):
+    """
+    Usage:
+    visualize_signal(labeled_signal.raw_signal._data, left=53779, right=53779 + 70)
+    :param signal:
+    :param left:
+    :param right:
+    """
     np.random.seed(19680801)
     plt.subplot(211)
     plt.plot(signal)

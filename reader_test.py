@@ -4,8 +4,9 @@ import os
 import pandas as pd
 
 from main.constants import DATA_DIR, TEST_DIR
-from reader import StartAction, LabeledSignal, MachineJustSwitchedOnAction, RegisteredNearPedalAction, \
-    RegisteredInFeederAction, FeederStartAction, PedalStartAction
+from main.signal.actions import StartAction, FeederStartAction, RegisteredInFeederAction, PedalStartAction, \
+    RegisteredNearPedalAction
+from main.signal.labeled_signal import LabeledSignal
 
 
 class NotIdenticalActionsError(Exception):

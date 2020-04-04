@@ -137,3 +137,4 @@ dmypy.json
 # Excel files
 ~$*
 output.xlsx
+.DS_Store
