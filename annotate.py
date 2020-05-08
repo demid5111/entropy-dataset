@@ -4,8 +4,8 @@ from main.annotation.activation import ActionsClassifier
 from main.annotation.cleanup_signal import SingleEventsEliminator
 from main.annotation.writer import EDFAnnotationChannelAppender
 from main.constants import DATA_DIR
-from main.signal.ir_raw_signal import IRRawSignal
-from main.signal.labeled_signal import LabeledSignal
+from main.annotation.labeled_signal.ir_raw_signal import IRRawSignal
+from main.annotation.labeled_signal.labeled_signal import LabeledSignal
 
 
 def list_all_files(root_dir):

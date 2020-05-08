@@ -1,7 +1,7 @@
 from typing import List
 
-from main.signal.peak import Peak
-from main.signal.utils import is_difference_negligible
+from main.annotation.labeled_signal.peak import Peak
+from main.annotation.labeled_signal.utils import is_difference_negligible
 
 
 def is_valid_action(peaks: List[Peak], required_number_peaks=4, is_local_zero=False):

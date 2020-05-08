@@ -1,4 +1,4 @@
-from main.signal.point import Point
+from main.annotation.labeled_signal.point import Point
 
 
 class Peak:

@@ -1,6 +1,7 @@
 import numpy as np
 
-from main.signal.actions import FeederStartAction, RegisteredInFeederAction, PedalStartAction, RegisteredNearPedalAction
+from main.annotation.labeled_signal.actions import FeederStartAction, RegisteredInFeederAction, PedalStartAction, \
+    RegisteredNearPedalAction
 
 
 class ActionsClassifier:

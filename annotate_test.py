@@ -4,9 +4,10 @@ import os
 import pandas as pd
 
 from main.constants import DATA_DIR, TEST_DIR, ARTIFACTS_DIR
-from main.signal.actions import StartAction, FeederStartAction, RegisteredInFeederAction, PedalStartAction, \
+from main.annotation.labeled_signal.actions import StartAction, FeederStartAction, RegisteredInFeederAction, \
+    PedalStartAction, \
     RegisteredNearPedalAction
-from main.signal.labeled_signal import LabeledSignal
+from main.annotation.labeled_signal.labeled_signal import LabeledSignal
 
 
 class NotIdenticalActionsError(Exception):

@@ -1,11 +1,11 @@
 from typing import List
 
-from main.signal.action_classifier import is_valid_action
-from main.signal.ir_raw_signal import IRRawSignal
-from main.signal.actions import RegisteredNearPedalAction, RegisteredInFeederAction, StartAction, PedalStartAction, \
-    FeederStartAction
-from main.signal.peak import Peak
-from main.signal.utils import is_difference_meaningful, is_difference_negligible
+from main.annotation.labeled_signal.action_classifier import is_valid_action
+from main.annotation.labeled_signal.ir_raw_signal import IRRawSignal
+from main.annotation.labeled_signal.actions import RegisteredNearPedalAction, RegisteredInFeederAction, StartAction, \
+    PedalStartAction, FeederStartAction
+from main.annotation.labeled_signal.peak import Peak
+from main.annotation.labeled_signal.utils import is_difference_meaningful, is_difference_negligible
 
 
 class LabeledSignal:

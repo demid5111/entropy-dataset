@@ -76,7 +76,7 @@ jobs:
           name: unit tests
           command: |
             . venv/bin/activate
-            python3 -m unittest rr_extract_test.py reader_test.py
+            python3 -m unittest rr_extract_test.py annotate_test.py
 
       - store_artifacts:
           path: test-reports
