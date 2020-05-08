@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-from main.constants import DATA_DIR, TEST_DIR
+from main.constants import DATA_DIR, TEST_DIR, ARTIFACTS_DIR
 from main.signal.actions import StartAction, FeederStartAction, RegisteredInFeederAction, PedalStartAction, \
     RegisteredNearPedalAction
 from main.signal.labeled_signal import LabeledSignal
@@ -75,7 +75,8 @@ class ReferenceReporter:
         ]
         df = pd.DataFrame(data_frame_sources, columns=columns)
 
-        writer = pd.ExcelWriter('output.xlsx', engine='xlsxwriter')
+        os.makedirs(ARTIFACTS_DIR, exist_ok=True)
+        writer = pd.ExcelWriter(os.path.join(ARTIFACTS_DIR, 'output.xlsx'), engine='xlsxwriter')
 
         df.to_excel(writer, sheet_name='Sheet1', index=False, startrow=1, header=False)
 

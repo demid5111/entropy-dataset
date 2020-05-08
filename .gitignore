@@ -134,7 +134,8 @@ dmypy.json
 # IDEA
 .idea/
 
-# Excel files
+# Artifact files
 ~$*
 output.xlsx
 .DS_Store
+data/artifacts

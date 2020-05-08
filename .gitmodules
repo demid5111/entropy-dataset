@@ -1,0 +1,3 @@
+[submodule "main/rr_extraction/qrs_detector"]
+	path = main/rr_extraction/qrs_detector
+	url = https://github.com/demid5111/qrs_detector

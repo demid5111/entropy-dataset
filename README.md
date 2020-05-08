@@ -15,10 +15,24 @@ Setting up instructions:
    source venv/bin/activate
    ```
 
-3. Install dependencies:
+3. Update the QRS detection submodule:
+    
+   ```bash
+   git submodule update --init --recursive 
+   ```
+
+4. Install dependencies:
 
    ```bash
+   pip install -r requirements_prerequisites.txt
    pip install -r requirements_prerequisites.txt
    pip install -r requirements.txt
    pip install -r requirements_dev.txt
    ```
+   
+## References
+
+We use the existing implementation of the Pan-Tomkins algorithm in a ECG QRS Detector.
+[![DOI](https://zenodo.org/badge/55516257.svg)](https://zenodo.org/badge/latestdoi/55516257)
+
+For the human ECG, we get the detection ratio: 98%.

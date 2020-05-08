@@ -16,6 +16,11 @@ jobs:
       - checkout
 
       - run:
+          name: clone submodules
+          command: |
+            git submodule update --init --recursive
+
+      - run:
           name: install git-lfs
           command: |
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
@@ -71,7 +76,7 @@ jobs:
           name: unit tests
           command: |
             . venv/bin/activate
-            python3 -m unittest discover -p *_test.py
+            python3 -m unittest rr_extract_test.py reader_test.py
 
       - store_artifacts:
           path: test-reports

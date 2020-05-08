@@ -1,7 +1,7 @@
 from typing import List
 
 from main.signal.action_classifier import is_valid_action
-from main.signal.ir_raw_signal import IRRawSignal, read_ir_signal_from
+from main.signal.ir_raw_signal import IRRawSignal
 from main.signal.actions import RegisteredNearPedalAction, RegisteredInFeederAction, StartAction, PedalStartAction, \
     FeederStartAction
 from main.signal.peak import Peak
