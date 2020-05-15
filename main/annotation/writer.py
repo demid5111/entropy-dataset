@@ -1,10 +1,12 @@
 import pyedflib
 
+from main.constants import ChannelsEnum
+
 
 class EDFAnnotationChannelAppender:
     @staticmethod
     def apply(file_name, target_file_name, raw_signal):
-        header_name = 'Classes'
+        header_name = ChannelsEnum.behavior_class.value
         signals, signal_headers, header = pyedflib.highlevel.read_edf(file_name)
         classes_index = None
         for i, signal_header in enumerate(signal_headers):
