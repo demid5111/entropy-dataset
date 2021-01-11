@@ -12,6 +12,9 @@ class AnnotatedEDFSignal:
 
     def __init__(self):
         self.eeg_ad_1 = None
+        self.eeg_ad_2 = None
+        self.eeg_ad_3 = None
+        self.behavior_class = None
 
     @classmethod
     def from_edf_file(cls, edf_file_path):

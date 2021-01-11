@@ -1,3 +1,6 @@
 [submodule "main/rr_extraction/qrs_detector"]
 	path = main/rr_extraction/qrs_detector
 	url = https://github.com/demid5111/qrs_detector
+[submodule "main/entropier"]
+	path = main/entropier
+	url = https://github.com/demid5111/approximate-enthropy
