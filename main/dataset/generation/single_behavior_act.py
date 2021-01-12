@@ -20,6 +20,8 @@ class SingleBehaviorAct:
                  rat_id: str,
                  experiment_number: int,
                  experiment_date: datetime,
+                 learning_stage_id: int,
+                 learning_stage_description: str,
                  edf_signal: AnnotatedEDFSignal,
                  source_file: str):
         # utility fields
@@ -28,13 +30,12 @@ class SingleBehaviorAct:
         self._ecg_descriptor = ecg_descriptor
         self._action_descriptor = action_descriptor
 
-        # TODO: need some material from Anastasya
-        self.stage_learning = None
-
         # constructor parameters
         self.rat_id = rat_id
         self.experiment_number = experiment_number
         self.experiment_date = experiment_date
+        self.learning_stage_id = learning_stage_id
+        self.learning_stage_description = learning_stage_description
 
         # filled from descriptor
         self.behaviour_type = self._action_descriptor.action
@@ -113,26 +114,26 @@ class SingleBehaviorAct:
         s, ms = extract_delta(self.raw_time_end)
         delta_end = timedelta(seconds=s, milliseconds=ms*1000)
         return {
-            # TODO: need some material from Anastasya
-            '1. Learning Stage': 'N/A',
             # constructor parameters
-            '2. Rat ID': self.rat_id,
-            '3. Number of Experiment': self.experiment_number,
-            '4. Date of Experiment': self.experiment_date,
+            '1. Learning Stage ID': self.learning_stage_id,
+            '2. Learning Stage Description': self.learning_stage_description,
+            '3. Rat ID': self.rat_id,
+            '4. Number of Experiment': self.experiment_number,
+            '5. Date of Experiment': self.experiment_date,
 
             # filled from descriptor
-            '5. Behavior': self.get_behavior(),
-            '6. Start time': self.experiment_date + delta_start,
-            '7. Stop time': self.experiment_date + delta_end,
+            '6. Behavior': self.get_behavior(),
+            '7. Start time': self.experiment_date + delta_start,
+            '8. Stop time': self.experiment_date + delta_end,
 
             # calculated attributes, empty by default, just numbers
-            '8. EEG Sample Entropy (m=10, type=0.2*SD), channel: AD1': self.eeg_sampen_ad1,
-            '9. EEG Sample Entropy (m=10, type=0.2*SD), channel: AD2': self.eeg_sampen_ad2,
-            '10. EEG Sample Entropy (m=10, type=0.2*SD), channel: AD3': self.eeg_sampen_ad3,
+            '9. EEG Sample Entropy (m=10, type=0.2*SD), channel: AD1': self.eeg_sampen_ad1,
+            '10. EEG Sample Entropy (m=10, type=0.2*SD), channel: AD2': self.eeg_sampen_ad2,
+            '11. EEG Sample Entropy (m=10, type=0.2*SD), channel: AD3': self.eeg_sampen_ad3,
 
-            '11. ECG RR mean': self.ecg_avg_rr,
-            '12. ECG RR SD':  self.ecg_sdnn_rr,
-            '13. ECG RR count': self.ecg_n_rr,
-            '14. ECG Sample Entropy (m=10, type=0.2*SD), channel: AD4': self.ecg_sampen_rr,
-            '15. ECG Permutation Entropy (stride=1), channel: AD4':self.ecg_permen_rr,
+            '12. ECG RR mean': self.ecg_avg_rr,
+            '13. ECG RR SD':  self.ecg_sdnn_rr,
+            '14. ECG RR count': self.ecg_n_rr,
+            '15. ECG Sample Entropy (m=10, type=0.2*SD), channel: AD4': self.ecg_sampen_rr,
+            '16. ECG Permutation Entropy (stride=1), channel: AD4':self.ecg_permen_rr,
         }
