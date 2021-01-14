@@ -36,11 +36,8 @@ def walk_through_collected_raw_data(root_path):
                                           int(re.search(r'( - )(?P<duration>\d+)', name).group('duration'))
                                           ),
                                      reverse=True)
-            file_to_extract = experiment_logs[0]
-            if len(experiment_logs) > 1:
-                print(f'Warning: analyzing only first entry <{file_to_extract}> '
-                      f'of rat <{rat_id}> for day <{experiment_day}>')
-            raw_meta_dataset.append(SingleEntry(rat_id,
-                                                experiment_day,
-                                                os.path.join(current_path, file_to_extract)))
+            for file_to_extract in experiment_logs:
+                raw_meta_dataset.append(SingleEntry(rat_id,
+                                                    experiment_day,
+                                                    os.path.join(current_path, file_to_extract)))
     return raw_meta_dataset

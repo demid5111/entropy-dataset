@@ -108,7 +108,7 @@ class SingleBehaviorAct:
         return mapping[self.behaviour_type]
 
     def to_dict(self):
-        extract_delta = lambda x: (x // 100, (x/100)%(x//100))
+        extract_delta = lambda x: (x // 100, (x/100)%(x//100) if x // 100 else 0)
         s, ms = extract_delta(self.raw_time_start)
         delta_start = timedelta(seconds=s, milliseconds=ms*1000)
         s, ms = extract_delta(self.raw_time_end)
