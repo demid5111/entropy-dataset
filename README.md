@@ -47,6 +47,20 @@ In order to do that the following command should be executed:
 python3 annotate.py
 ``` 
 
+### Generation of dataset
+
+In order to do generate the dataset the following command should be executed:
+
+```bash
+python3 dataset_generation.py
+``` 
+
+Existing datasets:
+* [dataset_v0.1.xlsx](./data/rats_2018/dataset_v0.1.xlsx)
+    - Generation date: 14.01.2020
+    - Comments: raw data is of very bad quality. In particular ECG is very noisy, resulting in almost no RR peaks
+      being detected for each action.
+
    
 ## References
 

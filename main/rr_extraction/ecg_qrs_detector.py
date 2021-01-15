@@ -24,7 +24,7 @@ class ECGQRSDetectorOffline(QRSDetectorOffline):
         # instead of reading from csv file
         self.np_series = np_series
         # 2. call the parent constructor, skipping its immediate detection
-        super().__init__(None)
+        super().__init__(None, verbose=False)
         # 3. set proper frequency coming from EDF files
         self.signal_frequency = frequency
 

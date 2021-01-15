@@ -26,8 +26,10 @@ class RawSignal:
         self._min_value = np.amin(self._data)
 
     @classmethod
-    def from_edf(cls, edf_file_path):
-        ir_buffer, ir_frequency, date_record = read_signal_from(edf_file_path, cls.edf_label)
+    def from_edf(cls, edf_file_path, label=None):
+        if label is None:
+            label = cls.edf_label
+        ir_buffer, ir_frequency, date_record = read_signal_from(edf_file_path, label)
         return cls(ir_buffer, ir_frequency, date_record)
 
     @classmethod
