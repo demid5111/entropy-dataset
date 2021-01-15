@@ -59,7 +59,8 @@ def extract_all_acts_from_single_file(rat_id, experiment_number, learning_stage_
                                 source_file=file_path)
         all_acts.append(act)
     df = pd.DataFrame([act.to_dict() for act in all_acts])
-    df['5. Date of Experiment'] = df['5. Date of Experiment'].dt.strftime('%Y-%m-%d %H:%M:%S')
-    df['7. Start time'] = df['7. Start time'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
-    df['8. Stop time'] = df['8. Stop time'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+    if not df.empty:
+        df['5. Date of Experiment'] = df['5. Date of Experiment'].dt.strftime('%Y-%m-%d %H:%M:%S')
+        df['7. Start time'] = df['7. Start time'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+        df['8. Stop time'] = df['8. Stop time'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
     return df

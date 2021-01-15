@@ -33,8 +33,9 @@ def collect_dataset_as_dataframe(root_path):
                                                            learning_stage_id=mapping.learning_stage_id,
                                                            learning_stage_description=mapping.learning_stage_description,
                                                            file_path=desc.file_path)
-        all_datasets.append(dataset_df)
-        save_dataset(df_path, dataset_df)
+        if not dataset_df.empty:
+            all_datasets.append(dataset_df)
+            save_dataset(df_path, dataset_df)
     return pd.concat(all_datasets)
 
 
