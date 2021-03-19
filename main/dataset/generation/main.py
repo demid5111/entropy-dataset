@@ -17,7 +17,13 @@ def collect_dataset_as_dataframe(root_path):
     all_datasets = []
     for i, desc in enumerate(meta_descriptors):
         print(f'Processing {i + 1}/{len(meta_descriptors)}. Path: {desc.file_path}')
-        df_file_name = os.path.splitext(os.path.relpath(desc.file_path, root_path).replace('/', '_'))[0] + '.xlsx'
+
+        path_wo_ext, ext = os.path.splitext(os.path.relpath(desc.file_path, root_path).replace('/', '_'))
+        if ext.lower() != '.edf':
+            print(f'Ignoring <{desc.file_path}> as not edf file...')
+            continue
+
+        df_file_name = path_wo_ext + '.xlsx'
         df_path = os.path.join(tmp_df_dir, df_file_name)
 
         mapping: StageMapping = StageMapping(os.path.join(root_path, 'learning_stages_rat_date.xlsx'),
@@ -25,7 +31,7 @@ def collect_dataset_as_dataframe(root_path):
                                              desc.experiment_day)
 
         if os.path.exists(df_path):
-            print(f'Skipping <{desc.file_path}>...')
+            print(f'Skipping <{desc.file_path}> as already processed...')
             dataset_df = read_dataset(df_path)
         else:
             dataset_df = extract_all_acts_from_single_file(rat_id=desc.rat_id,

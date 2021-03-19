@@ -139,3 +139,8 @@ dmypy.json
 output.xlsx
 .DS_Store
 data/artifacts
+data/rats_2018_gdrive
+
+# GDrive secrets
+secrets/client_secrets.json
+secrets/token.json

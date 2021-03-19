@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-from main.constants import DATA_DIR, TEST_DIR, ARTIFACTS_DIR
+from main.constants import TEST_REFERENCE_DIR, TEST_DIR, ARTIFACTS_DIR
 from main.annotation.labeled_signal.actions import StartAction, FeederStartAction, RegisteredInFeederAction, \
     PedalStartAction, \
     RegisteredNearPedalAction
@@ -121,7 +121,7 @@ class ReaderSingleEDFFileTest(unittest.TestCase, CustomAssertions):
 
     # @unittest.skip("temp skip as it works")
     def test_single_file_1(self):
-        file_name = os.path.join(DATA_DIR, 'T3', '2018.11.13', 'SN-00000043 - Track 1 - 1164 sec.edf')
+        file_name = os.path.join(TEST_REFERENCE_DIR, 'T3', '2018.11.13', 'SN-00000043 - Track 1 - 1164 sec.edf')
         labeled_signal = LabeledSignal.from_edf(file_name)
         ref_name = os.path.join(TEST_DIR, 'T3', '2018.11.13', 'SN-00000043 - Track 1 - 1164 sec.xlsx')
         expected_labels = self.read_expected_labels(ref_name, labeled_signal.date_record)
@@ -132,7 +132,7 @@ class ReaderSingleEDFFileTest(unittest.TestCase, CustomAssertions):
 
     # @unittest.skip("temp skip as it works")
     def test_single_file_2(self):
-        file_name = os.path.join(DATA_DIR, 'T4', '2018.12.21', 'SN-00000042 - Track 1 - 2032 sec.edf')
+        file_name = os.path.join(TEST_REFERENCE_DIR, 'T4', '2018.12.21', 'SN-00000042 - Track 1 - 2032 sec.edf')
         labeled_signal = LabeledSignal.from_edf(file_name)
         ref_name = os.path.join(TEST_DIR, 'T4', '2018.12.21', 'SN-00000042 - Track 1 - 2032 sec.xlsx')
         expected_labels = self.read_expected_labels(ref_name, labeled_signal.date_record)
@@ -143,7 +143,7 @@ class ReaderSingleEDFFileTest(unittest.TestCase, CustomAssertions):
 
     # @unittest.skip("temp skip as it does not work")
     def test_single_file_3(self):
-        file_name = os.path.join(DATA_DIR, 'T5', '2019.02.11', 'SN-00000042 - Track 1 - 2002 sec.edf')
+        file_name = os.path.join(TEST_REFERENCE_DIR, 'T5', '2019.02.11', 'SN-00000042 - Track 1 - 2002 sec.edf')
         labeled_signal = LabeledSignal.from_edf(file_name)
         ref_name = os.path.join(TEST_DIR, 'T5', '2019.02.11', 'SN-00000042 - Track 1 - 2002 sec.xlsx')
         expected_labels = self.read_expected_labels(ref_name, labeled_signal.date_record)
