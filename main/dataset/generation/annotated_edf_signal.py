@@ -10,6 +10,7 @@ class AnnotatedEDFSignal:
         ChannelsEnum.eeg_ad_3.value,
         ChannelsEnum.behavior_class.value
     )
+    ecg: RawSignal
 
     def __init__(self):
         self.eeg_ad_1 = None

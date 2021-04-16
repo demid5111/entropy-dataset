@@ -9,6 +9,9 @@ def read_signal_from(edf_file_path, edf_label):
         if signal_header['label'] == edf_label:
             ir_index = i
 
+    if ir_index is None:
+        raise TypeError(f'unable to find channel {edf_label} in {edf_file_path}')
+
     ir_buffer = signals[ir_index]
     ir_frequency = signal_headers[ir_index]['sample_rate']
     date_record = header['startdate']
@@ -19,10 +22,16 @@ class RawSignal:
     edf_label = None
 
     def __init__(self, series, ir_frequency, date_record):
-        self._data = series
+        self._data = None
+        self.update_data(series)
+
         self._start_offset = 0
         self._ir_frequency = ir_frequency
         self._date_record = date_record
+        self._min_value = np.amin(self._data)
+
+    def update_data(self, new_data):
+        self._data = new_data
         self._min_value = np.amin(self._data)
 
     @classmethod
