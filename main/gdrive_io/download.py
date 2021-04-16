@@ -9,7 +9,7 @@ from main.constants import GDRIVE_DATA_DIR
 from main.gdrive_io.common import find_dataset_folder_gdrive_id, list_folder, new_service
 
 SKIP_DOWNLOAD = False
-FRESH_DOWNLOAD = True
+FRESH_DOWNLOAD = False
 
 
 def log_grive_entry(gdrive_entry, current_index, total_entries_len, indent):
@@ -29,6 +29,10 @@ def download_file(drive_service, file_id, save_path, indent):
 
 def is_folder(gdrive_entry):
     return gdrive_entry.get('mimeType') == 'application/vnd.google-apps.folder'
+
+
+def is_binary_file(gdrive_entry):
+    return gdrive_entry.get('mimeType') in ('application/octet-stream', 'text/csv', 'text/xml')
 
 
 if __name__ == '__main__':
@@ -78,6 +82,9 @@ if __name__ == '__main__':
                     print(f'{"  " * level}Skipping download. Change SKIP_DOWNLOAD to False to start.')
                 elif save_path.exists():
                     print(f'{"  " * level}Skipping download {save_path} as file exists')
+                elif not is_binary_file(experiment_artifact):
+                    print(f'{"  " * level}Skipping download {save_path} as file is of '
+                          f'mimetype {experiment_artifact.get("mimeType")}')
                 else:
                     download_file(drive_service=service,
                                   file_id=experiment_artifact.get('id'),
