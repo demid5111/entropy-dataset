@@ -30,13 +30,17 @@ def walk_through_collected_raw_data(root_path):
         _, rat_experiment_days, _ = next(os.walk(os.path.join(root_path, rat_id)))
         rat_experiment_days = sorted(rat_experiment_days, key=lambda day: datetime.strptime(day, '%Y.%m.%d'))
         for experiment_number, experiment_day in enumerate(rat_experiment_days):
+            current_path: str
             current_path, _, experiment_logs = next(os.walk(os.path.join(root_path, rat_id, experiment_day)))
             experiment_logs = sorted(experiment_logs,
                                      key=(lambda name:
                                           int(re.search(r'( - )(?P<duration>\d+)', name).group('duration'))
                                           ),
                                      reverse=True)
+            file_to_extract: str
             for file_to_extract in experiment_logs:
+                if not file_to_extract.endswith('.edf'):
+                    continue
                 raw_meta_dataset.append(SingleEntry(rat_id,
                                                     experiment_day,
                                                     os.path.join(current_path, file_to_extract)))
