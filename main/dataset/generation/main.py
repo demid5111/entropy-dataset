@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import List
 
 import pandas as pd
@@ -14,31 +15,39 @@ def collect_dataset_as_dataframe(root_path):
     tmp_df_dir = os.path.join(ARTIFACTS_DIR, 'df')
     os.makedirs(tmp_df_dir, exist_ok=True)
 
-    all_datasets = []
-    for i, desc in enumerate(meta_descriptors):
-        print(f'Processing {i + 1}/{len(meta_descriptors)}. Path: {desc.file_path}')
+    only_edf_descriptors = []
+    for desc in meta_descriptors:
+        if Path(desc.file_path).suffix != '.edf':
+            continue
+        only_edf_descriptors.append(desc)
 
-        path_wo_ext, ext = os.path.splitext(os.path.relpath(desc.file_path, root_path).replace('/', '_'))
-        if ext.lower() != '.edf':
-            print(f'Ignoring <{desc.file_path}> as not edf file...')
+    all_datasets = []
+    for i, desc in enumerate(only_edf_descriptors):
+        print(f'Processing {i + 1}/{len(only_edf_descriptors)}. Path: {desc.file_path}')
+
+        current_folder = Path(desc.file_path).parent
+        mat_path = current_folder / f'{Path(desc.file_path).stem}.mat'
+        if not mat_path.exists():
+            print(f'Skipping <{desc.file_path}> as not having mat file...')
             continue
 
+        path_wo_ext, ext = os.path.splitext(os.path.relpath(desc.file_path, root_path).replace('/', '_'))
         df_file_name = path_wo_ext + '.xlsx'
         df_path = os.path.join(tmp_df_dir, df_file_name)
-
-        mapping: StageMapping = StageMapping(os.path.join(root_path, 'learning_stages_rat_date.xlsx'),
-                                             desc.rat_id,
-                                             desc.experiment_day)
 
         if os.path.exists(df_path):
             print(f'Skipping <{desc.file_path}> as already processed...')
             dataset_df = read_dataset(df_path)
         else:
+            mapping: StageMapping = StageMapping(os.path.join(root_path, 'learning_stages_rat_date.xlsx'),
+                                                 desc.rat_id,
+                                                 desc.experiment_day)
             dataset_df = extract_all_acts_from_single_file(rat_id=desc.rat_id,
                                                            experiment_number=mapping.experiment_number,
                                                            learning_stage_id=mapping.learning_stage_id,
                                                            learning_stage_description=mapping.learning_stage_description,
-                                                           file_path=desc.file_path)
+                                                           file_path=desc.file_path,
+                                                           use_enhanced_ecg_mat=True)
         if not dataset_df.empty:
             all_datasets.append(dataset_df)
             save_dataset(df_path, dataset_df)

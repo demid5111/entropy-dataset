@@ -8,9 +8,17 @@ from google.oauth2.credentials import Credentials
 from main.constants import DATASETS_GDRIVE_FOLDER_NAME, SECRETS_DIR
 
 
+class GDriveTypes:
+    folder = 'application/vnd.google-apps.folder'
+    csv = 'text/csv'
+    xml = 'text/xml'
+    binary = 'application/octet-stream'
+
+
 def find_dataset_folder_gdrive_id(drive_service):
     files = list_folder(drive_service, folder_id=None, folder_name=DATASETS_GDRIVE_FOLDER_NAME)
-    return files[0].get('id')
+    real_folders = [i for i in files if i.get('mimeType') == GDriveTypes.folder]
+    return real_folders[0].get('id')
 
 
 def list_folder(drive_service, folder_id, folder_name=None):
