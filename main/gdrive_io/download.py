@@ -6,7 +6,7 @@ from pathlib import Path
 from googleapiclient.http import MediaIoBaseDownload
 
 from main.constants import GDRIVE_DATA_DIR
-from main.gdrive_io.common import find_dataset_folder_gdrive_id, list_folder, new_service
+from main.gdrive_io.common import find_dataset_folder_gdrive_id, list_folder, new_service, GDriveTypes
 
 SKIP_DOWNLOAD = False
 FRESH_DOWNLOAD = False
@@ -28,11 +28,11 @@ def download_file(drive_service, file_id, save_path, indent):
 
 
 def is_folder(gdrive_entry):
-    return gdrive_entry.get('mimeType') == 'application/vnd.google-apps.folder'
+    return gdrive_entry.get('mimeType') == GDriveTypes.folder
 
 
 def is_binary_file(gdrive_entry):
-    return gdrive_entry.get('mimeType') in ('application/octet-stream', 'text/csv', 'text/xml')
+    return gdrive_entry.get('mimeType') in (GDriveTypes.binary, GDriveTypes.csv, GDriveTypes.xml)
 
 
 if __name__ == '__main__':
@@ -63,7 +63,7 @@ if __name__ == '__main__':
             experiment_artifacts = list_folder(drive_service=service, folder_id=rat_experiment['id'])
 
             for experiment_artifact_index, experiment_artifact in enumerate(experiment_artifacts):
-                if experiment_artifact['mimeType'] == 'application/vnd.google-apps.folder':
+                if experiment_artifact['mimeType'] == GDriveTypes.folder:
                     path = f'{rat_object["name"]}/{rat_experiment["name"]}/{experiment_artifact["name"]}'
                     print(f'WARNING: Ignoring {path}')
                     continue

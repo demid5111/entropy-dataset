@@ -39,8 +39,6 @@ def walk_through_collected_raw_data(root_path):
                                      reverse=True)
             file_to_extract: str
             for file_to_extract in experiment_logs:
-                if not file_to_extract.endswith('.edf'):
-                    continue
                 raw_meta_dataset.append(SingleEntry(rat_id,
                                                     experiment_day,
                                                     os.path.join(current_path, file_to_extract)))

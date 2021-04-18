@@ -15,9 +15,15 @@ def collect_dataset_as_dataframe(root_path):
     tmp_df_dir = os.path.join(ARTIFACTS_DIR, 'df')
     os.makedirs(tmp_df_dir, exist_ok=True)
 
+    only_edf_descriptors = []
+    for desc in meta_descriptors:
+        if Path(desc.file_path).suffix != '.edf':
+            continue
+        only_edf_descriptors.append(desc)
+
     all_datasets = []
-    for i, desc in enumerate(meta_descriptors):
-        print(f'Processing {i + 1}/{len(meta_descriptors)}. Path: {desc.file_path}')
+    for i, desc in enumerate(only_edf_descriptors):
+        print(f'Processing {i + 1}/{len(only_edf_descriptors)}. Path: {desc.file_path}')
 
         current_folder = Path(desc.file_path).parent
         mat_path = current_folder / f'{Path(desc.file_path).stem}.mat'

@@ -5,13 +5,13 @@ from googleapiclient.http import MediaFileUpload
 
 from main.constants import GDRIVE_DATA_DIR
 from main.dataset.generation.traverse_files import walk_through_collected_raw_data, SingleEntry
-from main.gdrive_io.common import new_service, find_dataset_folder_gdrive_id, list_folder
+from main.gdrive_io.common import new_service, find_dataset_folder_gdrive_id, list_folder, GDriveTypes
 
 
 def create_folder(drive_service, parent_folder_id, folder_name):
     file_metadata = {
         'name': folder_name,
-        'mimeType': 'application/vnd.google-apps.folder',
+        'mimeType': GDriveTypes.folder,
         'parents': [parent_folder_id]
     }
     return drive_service.files().create(body=file_metadata, fields='id').execute()
@@ -81,9 +81,9 @@ def main():
         file_exists = entry_exists(drive_service=service, parent_folder_id=folder_id, name=source_path.name)
 
         if file_exists:
-            print(f'Skipping uploading of {source_path} as it already exists...')
+            print(f'{entry_index+1}/{len(res)} Skipping uploading of {source_path} as it already exists...')
         else:
-            print(f'Uploading {source_path} {entry_index + 1}/{len(res)} ...')
+            print(f'{entry_index+1}/{len(res)} Uploading {source_path} ...')
             create_file(drive_service=service,
                         source_file_path=source_path,
                         parent_folder_id=folder_id)
