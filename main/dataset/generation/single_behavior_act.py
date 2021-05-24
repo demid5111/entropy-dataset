@@ -23,12 +23,14 @@ class SingleBehaviorAct:
                  learning_stage_id: int,
                  learning_stage_description: str,
                  edf_signal: AnnotatedEDFSignal,
-                 source_file: str):
+                 source_file: str,
+                 next_action_descriptor: ActionDescriptor):
         # utility fields
         self._source_file: str = source_file
         self._edf_signal: AnnotatedEDFSignal = edf_signal
         self._ecg_descriptor = ecg_descriptor
         self._action_descriptor = action_descriptor
+        self._next_action_descriptor = next_action_descriptor
 
         # constructor parameters
         self.rat_id = rat_id
@@ -96,9 +98,29 @@ class SingleBehaviorAct:
         return report
 
     def extract_my_ecg(self):
+        """
+        Extracts RR intervals that are positioned in the region of interest (ROI).
+
+        ROI is defined as a time period that starts when the action starts.
+        End of ROI is defined by the earliest beginning of one of the actions: either the end of 5 second till
+        the beginning of ROI or the beginning of the next action.
+
+        Returns
+        -------
+        list of RR intervals
+        """
         intervals = self._ecg_descriptor.intervals
         ms_times = self._ecg_descriptor.ms_times
-        return intervals[np.logical_and(ms_times >= self.raw_time_start, ms_times <= self.raw_time_end)]
+
+        extended_window_size_seconds = 5
+        end_of_extended_window = self.raw_time_start + self._edf_signal.ecg._ir_frequency * extended_window_size_seconds
+        if self._next_action_descriptor:
+            next_action_start = self._next_action_descriptor.start_index
+            right_boundary = next_action_start if next_action_start < end_of_extended_window else end_of_extended_window
+        else:
+            right_boundary = end_of_extended_window
+
+        return intervals[np.logical_and(ms_times >= self.raw_time_start, ms_times <= right_boundary)]
 
     def get_behavior(self):
         mapping = {
