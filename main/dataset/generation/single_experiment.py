@@ -14,6 +14,17 @@ class NoMoreActionsException(Exception):
     pass
 
 
+def format_timedelta(timedelta):
+    # Get the hours, minutes, and seconds.
+    minutes, seconds = divmod(timedelta.seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+
+    # Round the microseconds to millis.
+    millis = int(round(timedelta.microseconds / 1000, 0))
+
+    return f'{hours}:{minutes:02}:{seconds:02}.{millis}'
+
+
 def get_next_action(data, index_to_start):
     action_type = None
     mapping = {
@@ -93,7 +104,7 @@ def extract_all_acts_from_single_file(rat_id, experiment_number, learning_stage_
                 raise ValueError('Original and new ECG signals do no match: '
                                  f'{len(annotated_edf_signal.ecg)} vs {len(ecg_signal)}')
             annotated_edf_signal.ecg.update_data(ecg_signal)
-    ecg_descriptor = ECGDescriptor(*extract_rr_peaks(annotated_edf_signal.ecg))
+    ecg_descriptor = ECGDescriptor(*extract_rr_peaks(annotated_edf_signal.ecg, plot_data=False))
     date = annotated_edf_signal.eeg_ad_1._date_record
     data = annotated_edf_signal.behavior_class._data
 
@@ -104,6 +115,12 @@ def extract_all_acts_from_single_file(rat_id, experiment_number, learning_stage_
             index_to_start = action_descriptor.stop_index + 1
         except NoMoreActionsException:
             break
+
+        try:
+            next_action = get_next_action(data, index_to_start=index_to_start)
+        except NoMoreActionsException:
+            next_action = None
+
         act = SingleBehaviorAct(action_descriptor=action_descriptor,
                                 ecg_descriptor=ecg_descriptor,
                                 rat_id=rat_id,
@@ -112,11 +129,15 @@ def extract_all_acts_from_single_file(rat_id, experiment_number, learning_stage_
                                 learning_stage_id=learning_stage_id,
                                 learning_stage_description=learning_stage_description,
                                 edf_signal=annotated_edf_signal,
-                                source_file=file_path)
+                                source_file=file_path,
+                                next_action_descriptor=next_action)
         all_acts.append(act)
     df = pd.DataFrame([act.to_dict() for act in all_acts])
     if not df.empty:
+        experiment_start = df['5. Date of Experiment'][0]
+        df['7. Start time'] = df['7. Start time'] - experiment_start
+        df['8. Stop time'] = df['8. Stop time'] - experiment_start
         df['5. Date of Experiment'] = df['5. Date of Experiment'].dt.strftime('%Y-%m-%d %H:%M:%S')
-        df['7. Start time'] = df['7. Start time'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
-        df['8. Stop time'] = df['8. Stop time'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+        df['7. Start time'] = df['7. Start time'].apply(format_timedelta)
+        df['8. Stop time'] = df['8. Stop time'].apply(format_timedelta)
     return df
